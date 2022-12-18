@@ -1,21 +1,30 @@
 import Logo from "../assets/logo.png";
 import styled from "styled-components";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import axios from "axios";
 
 function LoginScreen() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [disableInput, setDisableInput] = useState(false)
-
-    function toggleLoading(){
-        setDisableInput(true);
-    }
+    const navigate = useNavigate();
 
     function userLogin(e) {
-        toggleLoading();
+        setDisableInput(true);
         e.preventDefault();
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
+        const body = {email, password};
+        axios.post(URL, body)
+            .then(() => {
+                alert("Login efetuado com sucesso!")
+                navigate("/hoje");
+            })
+            .catch((err) => {
+                alert(err.response.data.message);
+                setDisableInput(false);
+            });
     }
 
     return (

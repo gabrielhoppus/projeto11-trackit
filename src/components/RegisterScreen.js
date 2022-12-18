@@ -13,12 +13,8 @@ function RegisterScreen() {
     const [disableInput, setDisableInput] = useState(false)
     const navigate = useNavigate();
 
-    function toggleLoading(){
-        setDisableInput(true);
-    }
-
     function userRegister(e) {
-        toggleLoading();
+        setDisableInput(true);
         e.preventDefault();
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
         const body = { email, name, image, password };
@@ -27,7 +23,10 @@ function RegisterScreen() {
                 alert("Cadastro realizado com sucesso!")
                 navigate("/")
             })
-            .catch((err) => alert(err.response.data.message));
+            .catch((err) => {
+                alert(err.response.data.message)
+                setDisableInput(false);
+            });
     }
 
     return (
@@ -55,6 +54,7 @@ function RegisterScreen() {
                         placeholder="senha"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
+                        autocomplete="chrome-off"
                         required
                     />
                 </label>
@@ -66,6 +66,7 @@ function RegisterScreen() {
                         placeholder="nome"
                         value={name}
                         onChange={e => setName(e.target.value)}
+                        autocomplete="chrome-off"
                         required
                     />
                 </label>
@@ -77,6 +78,7 @@ function RegisterScreen() {
                         placeholder="foto"
                         value={image}
                         onChange={e => setImage(e.target.value)}
+                        autocomplete="chrome-off"
                         required
                     />
                 </label>
