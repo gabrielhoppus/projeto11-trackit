@@ -20,11 +20,11 @@ function RegisterScreen() {
         const body = { email, name, image, password };
         axios.post(URL, body)
             .then(() => {
-                alert("Cadastro realizado com sucesso!")
-                navigate("/")
+                alert("Cadastro realizado com sucesso!");
+                navigate("/");
             })
             .catch((err) => {
-                alert(err.response.data.message)
+                alert(err.response.data.message);
                 setDisableInput(false);
             });
     }
