@@ -1,25 +1,15 @@
-// import { UserContext } from "./UserContext";
-// import { useContext } from "react";
 import styled from "styled-components";
-import dayjs from "dayjs";
 
-
-
-
-function Today(){
-    // const { token } = useContext(UserContext);
-    const d = dayjs();
-    dayjs.locale("pt-br")
-
+function History(){
     return(
         <Container>
-            <p>{d.format('dddd, DD/MM')}</p>
+            <p>Histórico</p>
             <span>Em breve você poderá ver o histórico dos seus hábitos aqui!</span>
         </Container>
     );
 }
 
-export default Today;
+export default History;
 
 const Container = styled.div`
     width: 100%;
@@ -33,15 +23,12 @@ const Container = styled.div`
         margin-top: 28px;
         margin-left: 17px;
         margin-bottom: 17px;
-        width: 232px;
+        width: 100px;
         height: 29px;
         font-family: 'Lexend Deca';
         font-weight: 400;
         font-size: 22.976px;
         color: #126BA5;
-        ::first-letter {
-            text-transform:capitalize;
-        }
     }
     span{
         margin-left: 17px;
@@ -52,4 +39,4 @@ const Container = styled.div`
         font-size: 17.976px;
         color: #666666;
     }
-`;
+`

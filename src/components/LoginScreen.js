@@ -1,25 +1,30 @@
 import Logo from "../assets/logo.png";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
+import { UserContext } from "./UserContext";
 
 function LoginScreen() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [disableInput, setDisableInput] = useState(false)
     const navigate = useNavigate();
+    const { token, setToken, setImage } = useContext(UserContext);
 
     function userLogin(e) {
         setDisableInput(true);
         e.preventDefault();
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
-        const body = {email, password};
+        const body = { email, password };
         axios.post(URL, body)
-            .then(() => {
+            .then((res) => {
                 alert("Login efetuado com sucesso!")
                 navigate("/hoje");
+                setToken(res.data.token)
+                setImage(res.data.image)
+                console.log(token)
             })
             .catch((err) => {
                 alert(err.response.data.message);
@@ -55,15 +60,15 @@ function LoginScreen() {
                         required
                     />
                 </label>
+                <LoginButton type="submit" disabled={disableInput}>
+                    {disableInput ? <ThreeDots
+                        height="13"
+                        width="51"
+                        color="#FFFFFF"
+                    /> :
+                        "Entrar"}
+                </LoginButton>
             </LoginForm>
-            <LoginButton type="submit" disabled={disableInput}>
-                {disableInput ? <ThreeDots
-                    height="13"
-                    width="51"
-                    color="#FFFFFF"
-                /> :
-                    "Entrar"}
-            </LoginButton>
             <StyledLink to={`/cadastro`}>
                 <div>
                     Não tem uma conta? Cadastre-se!

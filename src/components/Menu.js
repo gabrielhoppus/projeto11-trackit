@@ -1,16 +1,19 @@
 import styled from "styled-components";
-import Mock from "../assets/esponja.jpg";
+import { useContext } from "react";
+import { UserContext } from "./UserContext";
 import { Link } from "react-router-dom";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 
 function Menu() {
+    const { userImage } = useContext(UserContext);  
+
     return (
         <Container>
             <Header>
                 <p>Trackit</p>
-                <img src={Mock} alt="bob_esponja" />
+                <img src={userImage} alt="user-avatar" />
             </Header>
             <Footer>
                 <StyledHabitsLink to={"/habitos"}>Hábitos</StyledHabitsLink>
