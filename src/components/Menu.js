@@ -115,6 +115,8 @@ const StyledBar = styled(CircularProgressbar)`
     width: 79px;
     height: 79px;
     margin: 6px 6px 6px 6px;
+    background-color: #52B6FF;
+    border-radius: 50%;
     .CircularProgressbar-text {
         fill: #FFFFFF;
         font-weight: 400;

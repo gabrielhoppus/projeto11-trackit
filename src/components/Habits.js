@@ -29,10 +29,12 @@ function Habits() {
         axios.get(URL, config)
             .then((res) => {
                 setHabits(res.data)
+                setRefresh(!refresh)
             })
             .catch((err) => {
                 console.log(err.response.data.message)
             })
+        
     }, [refresh, token])
 
     function toggleAdd() {
@@ -53,7 +55,7 @@ function Habits() {
     }
 
     function deleteHabit(habit) {
-        setRefresh(true)
+        setRefresh(!refresh)
         confirmAlert({
             customUI: ({ onClose }) => {
                 return (
@@ -390,7 +392,7 @@ const Days = styled.div`
 
 const Container = styled.div`
     width: 100%;
-    height: 600px;
+    min-height: 800px;
     background-color: #F2F2F2;
     display: flex;
     flex-direction: column;
