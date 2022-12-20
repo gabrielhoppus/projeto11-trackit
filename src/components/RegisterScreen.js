@@ -90,7 +90,7 @@ function RegisterScreen() {
                     {disableInput ? <ThreeDots
                         height="13"
                         width="51"
-                        color="#FFFFFF" 
+                        color="#FFFFFF"
                     /> :
                     "Cadastrar"}
                 </LoginButton>

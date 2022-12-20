@@ -26,15 +26,15 @@ function Habits() {
                 Authorization: `Bearer ${token}`
             }
         };
+
         axios.get(URL, config)
             .then((res) => {
-                setHabits(res.data)
-                setRefresh(!refresh)
+                setHabits(res.data);
+                setRefresh(!refresh);
             })
             .catch((err) => {
-                console.log(err.response.data.message)
+                console.log(err.response.data.message);
             });
-        
     }, [refresh, token]);
 
     function toggleAdd() {
@@ -51,7 +51,7 @@ function Habits() {
             setDay(dayId);
         } else {
             setDay(day.filter(clicked => clicked !== weekday.day));
-        };
+        }
     }
 
     function deleteHabit(habit) {
@@ -74,12 +74,12 @@ function Habits() {
                                         }
                                     };
                                     axios.delete(URL, config)
-                                        .then((res) => {
-                                            setRefresh(!refresh)
+                                        .then(() => {
+                                            setRefresh(!refresh);
                                         })
                                         .catch((err) => {
-                                            setRefresh(!refresh)
-                                            alert(err.response.data.message)
+                                            setRefresh(!refresh);
+                                            alert(err.response.data.message);
                                         });
                                     onClose();
                                 }}
@@ -88,7 +88,9 @@ function Habits() {
                             </ConfirmButton>
                         </AlertContainer>
                     </AlertBox>
-                )}});
+                );
+            }
+        });
     }
 
     function addHabit(e) {
@@ -105,17 +107,23 @@ function Habits() {
                 Authorization: `Bearer ${token}`
             }
         };
-        axios.post(URL, body, config)
-            .then(() => {
-                setRefresh(!refresh);
-                setSwitch(false);
-                setDisableInput(false);
-            })
-            .catch((err) => {
-                alert(err.response.data);
-                setRefresh(!refresh);
-                setDisableInput(false);
-            });
+
+        if (name === "") {
+            alert("Insira um nome para seu hábito!")
+            setDisableInput(false);
+        } else {
+            axios.post(URL, body, config)
+                .then(() => {
+                    setRefresh(!refresh);
+                    setSwitch(false);
+                    setDisableInput(false);
+                })
+                .catch((err) => {
+                    alert(err.response.data);
+                    setRefresh(!refresh);
+                    setDisableInput(false);
+                });
+        }
         setDay([]);
         setName("");
         e.preventDefault();
@@ -136,11 +144,11 @@ function Habits() {
                             placeholder="nome do hábito"
                             value={name}
                             onChange={e => setName(e.target.value)}
-                            required
                         />
                         <DaysContainer>
                             {DAYS.map((weekday) =>
                                 <Days
+                                    disabled={disableInput}
                                     data-test="habit-day"
                                     key={weekday.day}
                                     onClick={() => selectDay(weekday)}

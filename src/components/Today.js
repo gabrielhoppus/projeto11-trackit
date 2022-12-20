@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
-import "dayjs/locale/pt-br"
+import "dayjs/locale/pt-br";
 import axios from "axios";
 import Check from "../assets/check.png";
 
@@ -12,7 +12,7 @@ function Today() {
     const [habits, setHabits] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const doneHabits = habits.filter((habit) => habit.done);
-    const completion = ((doneHabits.length / habits.length));
+    const completion = (doneHabits.length / habits.length);
     const percentage = 100;
     const { token, setDone } = useContext(UserContext);
     dayjs.extend(localeData);
@@ -20,7 +20,7 @@ function Today() {
     dayjs.locale("pt-br");
     setDone(completion);
     useEffect(() => {
-        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -28,11 +28,11 @@ function Today() {
         };
         axios.get(URL, config)
             .then((res) => {
-                setHabits(res.data)
-                setRefresh(!refresh)
+                setHabits(res.data);
+                setRefresh(!refresh);
             })
             .catch((err) => {
-                console.log(err.response.data.message)
+                console.log(err.response.data.message);
             });
     }, [refresh, token]);
 
@@ -48,11 +48,11 @@ function Today() {
 
         axios.post(checkURL, body, config)
             .then(() => {
-                setRefresh(!refresh)
+                setRefresh(!refresh);
             })
             .catch((err) => {
-                console.log(err.response.data.message)
-                setRefresh(!refresh)
+                console.log(err.response.data.message);
+                setRefresh(!refresh);
             });
     }
 
@@ -68,11 +68,11 @@ function Today() {
 
         axios.post(uncheckURL, body, config)
             .then(() => {
-                setRefresh(!refresh)
+                setRefresh(!refresh);
             })
             .catch((err) => {
-                console.log(err.response.data.message)
-                setRefresh(!refresh)
+                console.log(err.response.data.message);
+                setRefresh(!refresh);
             });
     }
 
@@ -97,7 +97,7 @@ function Today() {
                                 </SequenceContainer>
                                 <SequenceContainer
                                     data-test="today-habit-record"
-                                    color={habit.currentSequence === habit.highestSequence 
+                                    color={habit.currentSequence === habit.highestSequence
                                         && habit.highestSequence !== 0 ? "#8FC549" : "#666666"}
                                         >
                                     <SequenceTitle>Seu recorde:</SequenceTitle> {habit.highestSequence} dias

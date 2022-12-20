@@ -37,8 +37,9 @@ function LoginScreen() {
                 <img src={Logo} alt="calendar_logo" />
             </LogoContainer>
             <LoginForm onSubmit={userLogin}>
-                <label data-test="email-input" htmlFor="email">
+                <label htmlFor="email">
                     <LoginInput
+                        data-test="email-input"
                         disabled={disableInput}
                         id="email"
                         type="email"
@@ -48,8 +49,9 @@ function LoginScreen() {
                         required
                     />
                 </label>
-                <label data-test="password-input" htmlFor="password">
+                <label htmlFor="password">
                     <LoginInput
+                        data-test="password-input"
                         disabled={disableInput}
                         id="password"
                         type="password"
