@@ -10,11 +10,12 @@ import { useState } from "react";
 
 function App() {
   const [token, setToken] = useState("");
-  const [userImage, setImage] =useState("")
+  const [userImage, setImage] = useState("");
+  const [done, setDone]  = useState("");
 
   return (
     <BrowserRouter>
-      <UserContext.Provider value={{ token, setToken, userImage, setImage }}>
+      <UserContext.Provider value={{ token, setToken, userImage, setImage, done, setDone }}>
         <Routes>
           <Route path="/" element={<LoginScreen />} />
           <Route path="/cadastro" element={<RegisterScreen />} />

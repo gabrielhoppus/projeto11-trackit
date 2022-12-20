@@ -11,13 +11,14 @@ import Check from "../assets/check.png";
 function Today() {
     const [habits, setHabits] = useState([]);
     const [refresh, setRefresh] = useState(false);
-    const doneHabits = habits.filter((habit) => habit.done)
-    const completion = ((doneHabits.length / habits.length) * 100)
-    const { token } = useContext(UserContext);
-    dayjs.extend(localeData)
+    const doneHabits = habits.filter((habit) => habit.done);
+    const completion = ((doneHabits.length / habits.length));
+    const percentage = 100;
+    const { token, setDone } = useContext(UserContext);
+    dayjs.extend(localeData);
     const d = dayjs();
-    dayjs.locale("pt-br")
-
+    dayjs.locale("pt-br");
+    setDone(completion);
     useEffect(() => {
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
         const config = {
@@ -32,12 +33,12 @@ function Today() {
             })
             .catch((err) => {
                 console.log(err.response.data.message)
-            })
-    }, [refresh, token])
+            });
+    }, [refresh, token]);
 
     function toggleCheck(habit) {
-        setRefresh(!refresh)
-        const checkURL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit}/check`
+        setRefresh(!refresh);
+        const checkURL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit}/check`;
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -52,12 +53,12 @@ function Today() {
             .catch((err) => {
                 console.log(err.response.data.message)
                 setRefresh(!refresh)
-            })
+            });
     }
 
     function toggleUncheck(habit) {
-        setRefresh(!refresh)
-        const uncheckURL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit}/uncheck`
+        setRefresh(!refresh);
+        const uncheckURL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit}/uncheck`;
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -72,29 +73,30 @@ function Today() {
             .catch((err) => {
                 console.log(err.response.data.message)
                 setRefresh(!refresh)
-            })
+            });
     }
 
     return (
         <Container>
-            <p>{d.format('dddd, DD/MM')}</p>
+            <p data-test="today">{d.format('dddd, DD/MM')}</p>
             {doneHabits.length === 0 ?
-                <SubTitle color={"#BABABA"}>Nenhum hábito concluído ainda</SubTitle>
+                <SubTitle data-test="today-counter" color={"#BABABA"}>Nenhum hábito concluído ainda</SubTitle>
                 :
-                <SubTitle color={"#8FC549"}>{completion.toFixed(1)}% dos hábitos concluídos</SubTitle>
+                <SubTitle data-test="today-counter" color={"#8FC549"}>{(completion*percentage).toFixed(1)}% dos hábitos concluídos</SubTitle>
             }
             <div>
                 {habits.map((habit) =>
-                    <HabitContainer key={habit.id}>
+                    <HabitContainer data-test="today-habit-container" key={habit.id}>
                         <StyledContainer>
                             <div>
-                                <HabitTitle>
+                                <HabitTitle data-test="today-habit-name">
                                     {habit.name}
                                 </HabitTitle>
-                                <SequenceContainer color={habit.currentSequence !== 0 ? "#8FC549" : "#666666"}>
+                                <SequenceContainer data-test="today-habit-sequence" color={habit.currentSequence !== 0 ? "#8FC549" : "#666666"}>
                                     <SequenceTitle>Sequência atual:</SequenceTitle> {habit.currentSequence} dias
                                 </SequenceContainer>
-                                <SequenceContainer 
+                                <SequenceContainer
+                                    data-test="today-habit-record"
                                     color={habit.currentSequence === habit.highestSequence 
                                         && habit.highestSequence !== 0 ? "#8FC549" : "#666666"}
                                         >
@@ -102,6 +104,7 @@ function Today() {
                                 </SequenceContainer>
                             </div>
                             <CheckmarkContainer
+                                data-test="today-habit-check-btn"
                                 onClick={() => !habit.done ? toggleCheck(habit.id) : toggleUncheck(habit.id)}
                                 background={habit.done ? "#8FC549" : "#EBEBEB"}
                             >
@@ -109,7 +112,6 @@ function Today() {
                             </CheckmarkContainer>
                         </StyledContainer>
                     </HabitContainer>
-
                 )}
             </div>
         </Container>
@@ -122,7 +124,7 @@ const StyledContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-`
+`;
 
 const CheckmarkContainer = styled.div`
     width: 69px;
@@ -141,7 +143,7 @@ const CheckmarkContainer = styled.div`
 const Checkmark = styled.img`
     width: 35.09px;
     height: 28px;
-`
+`;
 
 const HabitContainer = styled.div`
     background-color: #FFFFFF;
@@ -209,4 +211,4 @@ const SubTitle = styled.span`
     font-weight: 400;
     font-size: 17.976px;
     color: ${props => props.color};
-`
+`;

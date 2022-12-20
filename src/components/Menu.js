@@ -5,31 +5,29 @@ import { Link } from "react-router-dom";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-
 function Menu() {
-    const { userImage } = useContext(UserContext);  
+    const { userImage, done } = useContext(UserContext);
 
     return (
         <Container>
-            <Header>
+            <Header data-test="header">
                 <p>Trackit</p>
                 <img src={userImage} alt="user-avatar" />
             </Header>
-            <Footer>
-                <StyledHabitsLink to={"/habitos"}>Hábitos</StyledHabitsLink>
-                <Link to={"/hoje"}>
+            <Footer data-test="menu">
+                <StyledHabitsLink data-test="habit-link" to={"/habitos"}>Hábitos</StyledHabitsLink>
+                <StyledProgressLink data-test="today-link" to={"/hoje"}>
                     <BarContainer>
-                        <StyledBar value={0.66} maxValue={1} text={`Hoje`} />
+                        <StyledBar value={done} maxValue={1} text={`Hoje`} />
                     </BarContainer>
-                </Link>
+                </StyledProgressLink>
                 <StyledHistoryLink to={"/historico"}>Histórico</StyledHistoryLink>
             </Footer>
         </Container>
-
     );
 }
 
-export default Menu
+export default Menu;
 
 const Container = styled.div`
     width: 100%;
@@ -69,6 +67,10 @@ const Footer = styled.footer`
     display: flex;
     align-items: center;
     justify-content: space-between;
+`;
+
+const StyledProgressLink = styled(Link)`
+
 `;
 
 const StyledHabitsLink = styled(Link)`
@@ -131,4 +133,4 @@ const StyledBar = styled(CircularProgressbar)`
     .CircularProgressbar-trail {
         stroke: #52B6FF;
     }
-`
+`;

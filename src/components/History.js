@@ -39,4 +39,4 @@ const Container = styled.div`
         font-size: 17.976px;
         color: #666666;
     }
-`
+`;

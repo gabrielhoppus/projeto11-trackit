@@ -9,7 +9,7 @@ import { UserContext } from "./UserContext";
 function LoginScreen() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [disableInput, setDisableInput] = useState(false)
+    const [disableInput, setDisableInput] = useState(false);
     const navigate = useNavigate();
     const { token, setToken, setImage } = useContext(UserContext);
 
@@ -20,11 +20,10 @@ function LoginScreen() {
         const body = { email, password };
         axios.post(URL, body)
             .then((res) => {
-                alert("Login efetuado com sucesso!")
                 navigate("/hoje");
-                setToken(res.data.token)
-                setImage(res.data.image)
-                console.log(token)
+                setToken(res.data.token);
+                setImage(res.data.image);
+                console.log(token);
             })
             .catch((err) => {
                 alert(err.response.data.message);
@@ -38,7 +37,7 @@ function LoginScreen() {
                 <img src={Logo} alt="calendar_logo" />
             </LogoContainer>
             <LoginForm onSubmit={userLogin}>
-                <label htmlFor="email">
+                <label data-test="email-input" htmlFor="email">
                     <LoginInput
                         disabled={disableInput}
                         id="email"
@@ -49,7 +48,7 @@ function LoginScreen() {
                         required
                     />
                 </label>
-                <label htmlFor="password">
+                <label data-test="password-input" htmlFor="password">
                     <LoginInput
                         disabled={disableInput}
                         id="password"
@@ -60,7 +59,7 @@ function LoginScreen() {
                         required
                     />
                 </label>
-                <LoginButton type="submit" disabled={disableInput}>
+                <LoginButton data-test="login-btn" type="submit" disabled={disableInput}>
                     {disableInput ? <ThreeDots
                         height="13"
                         width="51"
@@ -69,13 +68,12 @@ function LoginScreen() {
                         "Entrar"}
                 </LoginButton>
             </LoginForm>
-            <StyledLink to={`/cadastro`}>
+            <StyledLink data-test="signup-link" to={`/cadastro`}>
                 <div>
                     Não tem uma conta? Cadastre-se!
                 </div>
             </StyledLink>
         </Container>
-
     );
 }
 
@@ -156,4 +154,4 @@ const StyledLink = styled(Link)`
     &:focus, &:hover, &:visited, &:link, &:active {
         text-decoration: underline;
 }
-`
+`;

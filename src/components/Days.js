@@ -27,6 +27,6 @@ const DAYS = [
         day: 6,
         weekday: "S"
     }
-]
+];
 
 export default DAYS;

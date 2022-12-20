@@ -10,7 +10,7 @@ function RegisterScreen() {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
-    const [disableInput, setDisableInput] = useState(false)
+    const [disableInput, setDisableInput] = useState(false);
     const navigate = useNavigate();
 
     function userRegister(e) {
@@ -37,6 +37,7 @@ function RegisterScreen() {
             <LoginForm onSubmit={userRegister}>
                 <label htmlFor="email">
                     <LoginInput
+                        data-test="email-input"
                         disabled={disableInput}
                         id="email"
                         type="email"
@@ -48,6 +49,7 @@ function RegisterScreen() {
                 </label>
                 <label htmlFor="password">
                     <LoginInput
+                        data-test="password-input"
                         disabled={disableInput}
                         id="password"
                         type="password"
@@ -60,6 +62,7 @@ function RegisterScreen() {
                 </label>
                 <label htmlFor="name">
                     <LoginInput
+                        data-test="user-name-input"
                         disabled={disableInput}
                         id="name"
                         type="text"
@@ -72,6 +75,7 @@ function RegisterScreen() {
                 </label>
                 <label htmlFor="image">
                     <LoginInput
+                        data-test="user-image-input"
                         disabled={disableInput}
                         id="foto"
                         type="text"
@@ -82,7 +86,7 @@ function RegisterScreen() {
                         required
                     />
                 </label>
-                <LoginButton type="submit" disabled={disableInput}>
+                <LoginButton data-test="signup-btn" type="submit" disabled={disableInput}>
                     {disableInput ? <ThreeDots
                         height="13"
                         width="51"
@@ -91,7 +95,7 @@ function RegisterScreen() {
                     "Cadastrar"}
                 </LoginButton>
             </LoginForm>
-            <StyledLink to={`/`}>
+            <StyledLink data-test="login-link" to={`/`}>
                 <div>
                     Já tem uma conta? Faça login!
                 </div>
@@ -177,4 +181,4 @@ const StyledLink = styled(Link)`
     &:focus, &:hover, &:visited, &:link, &:active {
         text-decoration: underline;
 }
-`
+`;

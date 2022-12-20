@@ -17,7 +17,7 @@ function Habits() {
     const [background] = useState("#CFCFCF");
     const [menuSwitch, setSwitch] = useState(false);
     const [refresh, setRefresh] = useState(false);
-    const [disableInput, setDisableInput] = useState(false)
+    const [disableInput, setDisableInput] = useState(false);
 
     useEffect(() => {
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
@@ -33,9 +33,9 @@ function Habits() {
             })
             .catch((err) => {
                 console.log(err.response.data.message)
-            })
+            });
         
-    }, [refresh, token])
+    }, [refresh, token]);
 
     function toggleAdd() {
         setSwitch(true);
@@ -47,15 +47,15 @@ function Habits() {
 
     function selectDay(weekday) {
         if (!day.includes(weekday.day)) {
-            const dayId = [...day, weekday.day]
+            const dayId = [...day, weekday.day];
             setDay(dayId);
         } else {
             setDay(day.filter(clicked => clicked !== weekday.day));
-        }
+        };
     }
 
     function deleteHabit(habit) {
-        setRefresh(!refresh)
+        setRefresh(!refresh);
         confirmAlert({
             customUI: ({ onClose }) => {
                 return (
@@ -67,7 +67,7 @@ function Habits() {
                             <CloseButton onClick={onClose}>No</CloseButton>
                             <ConfirmButton
                                 onClick={() => {
-                                    const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit}`
+                                    const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit}`;
                                     const config = {
                                         headers: {
                                             Authorization: `Bearer ${token}`
@@ -79,33 +79,27 @@ function Habits() {
                                         })
                                         .catch((err) => {
                                             setRefresh(!refresh)
-                                            console.log(err.response.data.message)
-                                        })
-                                    onClose()
+                                            alert(err.response.data.message)
+                                        });
+                                    onClose();
                                 }}
                             >
                                 Yes
                             </ConfirmButton>
                         </AlertContainer>
                     </AlertBox>
-                )
-            }
-        });
-
-
-
-
+                )}});
     }
 
     function addHabit(e) {
         setDisableInput(true);
         setRefresh(true);
-        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
         const days = [...day];
         const body = {
             name,
             days
-        }
+        };
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -113,19 +107,17 @@ function Habits() {
         };
         axios.post(URL, body, config)
             .then(() => {
-                alert("Hábito cadastrado com sucesso!")
-                setRefresh(!refresh)
-                setSwitch(false)
+                setRefresh(!refresh);
+                setSwitch(false);
                 setDisableInput(false);
             })
             .catch((err) => {
-                alert(err.response.data)
-                setRefresh(!refresh)
+                alert(err.response.data);
+                setRefresh(!refresh);
                 setDisableInput(false);
-            })
-        setDay([])
-        setName("")
-
+            });
+        setDay([]);
+        setName("");
         e.preventDefault();
     }
 
@@ -133,12 +125,12 @@ function Habits() {
         <Container>
             <HabitContainer>
                 <p>Meus hábitos</p>
-                <AddButton onClick={toggleAdd}>+</AddButton>
+                <AddButton data-test="habit-create-btn" onClick={toggleAdd}>+</AddButton>
             </HabitContainer>
             {menuSwitch && (
                 <>
-                    <CreatHabitContainer onSubmit={addHabit}>
-                        <HabitInput disabled={disableInput}
+                    <CreatHabitContainer data-test="habit-create-container" onSubmit={addHabit}>
+                        <HabitInput data-test="habit-name-input" disabled={disableInput}
                             id="habit"
                             type="text"
                             placeholder="nome do hábito"
@@ -149,6 +141,7 @@ function Habits() {
                         <DaysContainer>
                             {DAYS.map((weekday) =>
                                 <Days
+                                    data-test="habit-day"
                                     key={weekday.day}
                                     onClick={() => selectDay(weekday)}
                                     color={day.includes(weekday.day) ? color : "#DBDBDB"}
@@ -160,13 +153,18 @@ function Habits() {
                         </DaysContainer>
                         <ButtonContainer>
                             <CancelButton
+                                data-test="habit-create-cancel-btn"
                                 type="button"
                                 onClick={toggleCancel}
                                 disabled={disableInput}
                             >
                                 Cancelar
                             </CancelButton>
-                            <SaveButton type="submit" disabled={disableInput}>
+                            <SaveButton
+                                data-test="habit-create-save-btn"
+                                type="submit"
+                                disabled={disableInput}
+                            >
                                 {disableInput ? <ThreeDots
                                     height="13"
                                     width="51"
@@ -181,14 +179,15 @@ function Habits() {
             {habits.length !== 0 ? (
                 <>
                     {habits.map((habit) =>
-                        <RegisteredHabitsContainer key={habit.id}>
+                        <RegisteredHabitsContainer data-test="habit-container" key={habit.id}>
                             <SubContainer>
-                                <HabitTitle>{habit.name}</HabitTitle>
-                                <StyledIcon onClick={() => deleteHabit(habit.id)} src={Trash} />
+                                <HabitTitle data-test="habit-name">{habit.name}</HabitTitle>
+                                <StyledIcon data-test="habit-delete-btn" onClick={() => deleteHabit(habit.id)} src={Trash} />
                             </SubContainer>
                             <DaysContainer>
                                 {DAYS.map((weekday) =>
                                     <Days
+                                        data-test="habit-day"
                                         key={weekday.day}
                                         color={habit.days.includes(weekday.day) ? "#FFFFFF" : "#DBDBDB"}
                                         background={habit.days.includes(weekday.day) ? "#CFCFCF" : "transparent"}
@@ -204,7 +203,7 @@ function Habits() {
                 <span>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</span>
             )}
         </Container>
-    )
+    );
 }
 
 export default Habits;
@@ -226,7 +225,7 @@ const AlertTitle = styled.h1`
     font-size: 22.976px;
     color: #126BA5;
     text-align: center;
-`
+`;
 
 const AlertContainer = styled.div`
     witdh: 200px;
@@ -234,7 +233,7 @@ const AlertContainer = styled.div`
     flex-direction: row;
     margin-left: auto;
     margin-right: auto;
-`
+`;
 
 const CloseButton = styled.button`
     font-weight: 400;
@@ -331,7 +330,7 @@ const SaveButton = styled.button`
     :disabled{
         opacity: 0.7;
     }
-`
+`;
 
 const CreatHabitContainer = styled.form`
     width: 340px;
@@ -440,4 +439,4 @@ const AddButton = styled.button`
     justify-content: center;
     display: flex;
     color: #FFFFFF;
-`
+`;
